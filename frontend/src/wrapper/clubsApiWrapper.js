@@ -5,7 +5,7 @@ export async function fetchAllClubs() {
     const response = await apiClient.get("/clubs");
     return mapClubsData(response.data);
   } catch (error) {
-    console.error('Error fetching clubs', error);
+    console.error("Error fetching clubs", error);
   }
 }
 
@@ -14,24 +14,34 @@ export async function fetchClubById(clubId) {
     const response = await apiClient.get(`/clubs/${clubId}`);
     return mapClubData(response.data);
   } catch (error) {
-    console.error('Error fetching club', error);
+    console.error("Error fetching club", error);
+  }
+}
+
+export async function fetchTop3PlayersByClubId(clubId) {
+  try {
+    const response = await apiClient.get(`/clubs/${clubId}/top3`);
+    return response.data;
+  } catch (error) {
+    console.error("Top 3 mängijate laadimine ebaõnnestus", error);
+    return [];
   }
 }
 
 export async function addClub(club) {
   try {
-    await apiClient.post('/clubs', club);
+    await apiClient.post("/clubs", club);
   } catch (error) {
-    console.error('Error adding club', error);
+    console.error("Error adding club", error);
   }
 }
 
 export async function fetchTopClubs(limit) {
   try {
-    const response = await apiClient.get( `/clubs/top/${limit}`);
+    const response = await apiClient.get(`/clubs/top/${limit}`);
     return mapClubsData(response.data);
   } catch (error) {
-    console.error('Error fetching top clubs', error);
+    console.error("Error fetching top clubs", error);
   }
 }
 
@@ -39,13 +49,13 @@ export async function removeClub(clubId) {
   try {
     await apiClient.delete(`/clubs/${clubId}`);
   } catch (error) {
-    console.error('Error deleting club', error);
+    console.error("Error deleting club", error);
   }
 }
 
 function mapClubsData(rawClubData) {
   return rawClubData.map(club => {
-    return mapClubData(club)
+    return mapClubData(club);
   });
 }
 

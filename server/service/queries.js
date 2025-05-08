@@ -251,12 +251,17 @@ const SELECT_ALL_CLUBS = `
 `;
 
 const SELECT_CLUB_BY_ID = `
-    SELECT k.nimi, a.nimi AS asukoht, f_klubisuurus($1) AS members, ROUND(AVG(i.ranking), 1) AS average_rating
+    SELECT 
+        k.id, 
+        k.nimi, 
+        a.nimi AS asukoht, 
+        f_klubisuurus(k.id) AS members, 
+        ROUND(AVG(i.ranking), 1) AS average_rating
     FROM klubid k
     LEFT JOIN isikud i ON k.id = i.klubis
     LEFT JOIN asulad a ON k.asula = a.id
     WHERE k.id = $1
-    GROUP BY k.nimi, a.nimi
+    GROUP BY k.id, k.nimi, a.nimi
 `;
 
 const SELECT_TOP_CLUBS = `
